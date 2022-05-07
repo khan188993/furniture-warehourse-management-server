@@ -38,9 +38,25 @@ async function run(){
     //DELETE FURNITURE DATA SUCCESSFULLY
     app.delete('/furniture/delete/:id',async (req,res)=>{
         const id = {_id:ObjectId(req.params.id)}
-
         const result = await furnitureCollection.deleteOne(id)
         res.send('delete api');
+    })
+
+    //UPDATE FURNITURE DATA SUCCESSFULLY
+    app.put('/furniture/update/:id',async (req,res)=>{
+        const id = {_id:ObjectId(req.params.id)}
+        const updateData = req.body;
+        const options = {
+            upsert:true,
+        }
+        const updateDoc = {
+            $set:{
+                ...updateData
+            }
+        }
+        console.log(updateData);
+        const result = await furnitureCollection.updateOne(id,updateDoc,options);
+        res.send('put data');
     })
 
 }
