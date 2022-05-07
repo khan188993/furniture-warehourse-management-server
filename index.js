@@ -18,16 +18,20 @@ async function run(){
     //DATABASE CONNECTED
     await client.connect();
     const furnitureCollection = client.db("FurnitureInventoryManagement").collection("Furniture");
-
+    console.log('connected');
     //GET ALL FURNITURE DATA SUCCESSFULLY
+    //url:http://localhost:4000/furniture = for all data get 
+    //url2: http://localhost:4000/furniture/price=2004 = for search query ;
     app.get('/furniture',async (req,res)=>{
         const query = req.query;
+        console.log(query);
         const result = await furnitureCollection.find(query).toArray();
         console.log(result);
         res.send(result);
     })
     
     //POST FURNITURE DATA SUCCESSFULLY
+    //url:http://localhost:4000/furniture = post data with object value 
     app.post('/furniture',async (req,res)=>{
         const newFurniture = req.body;
         console.log(newFurniture);
@@ -36,6 +40,7 @@ async function run(){
     })
 
     //DELETE FURNITURE DATA SUCCESSFULLY
+    //url : http://localhost:4000/furniture/delete/1 = delete data with id value 
     app.delete('/furniture/delete/:id',async (req,res)=>{
         const id = {_id:ObjectId(req.params.id)}
         const result = await furnitureCollection.deleteOne(id)
@@ -43,6 +48,7 @@ async function run(){
     })
 
     //UPDATE FURNITURE DATA SUCCESSFULLY
+    //url : http://localhost:4000/furniture/update/2 = update data with id 
     app.put('/furniture/update/:id',async (req,res)=>{
         const id = {_id:ObjectId(req.params.id)}
         const updateData = req.body;
@@ -54,18 +60,18 @@ async function run(){
                 ...updateData
             }
         }
-        console.log(updateData);
+
         const result = await furnitureCollection.updateOne(id,updateDoc,options);
-        res.send('put data');
+        res.send(result);
     })
 
 }
 run().catch(console.dir('err'));
 
 
+//TEST GET API 
 app.get('/',(req,res)=>{
-
-    res.send('server response send');
+    res.send('TESTED GET API ');
 })
 
 app.listen(port,()=>{
@@ -73,4 +79,3 @@ app.listen(port,()=>{
 })
 
 //added items field 
-// {"name":"product 2","desc":"lreasfd asdfadsf ladfjasd fasdfdsf asfasdf","imgUrl":"url","supplier_name":"Arfan Khan","quantity":20,"price":200,"sold":5}
