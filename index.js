@@ -1,16 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+require('dotenv').config()
 const ObjectId = require('mongodb').ObjectId;
 const app = express();
 const port = process.env.PORT || 4000;
-
+console.log(process.env.DB_USER)
 //middleware use 
 app.use(cors());
 app.use(express.json());
 
 //DATABASE Connection Setup 
-const uri = "mongodb+srv://arfankhan:AmKj8HzLIQ7BKQ4R@cluster0.dzplv.mongodb.net/FurnitureInventoryManagement?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.dzplv.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
