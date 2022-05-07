@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -34,6 +35,14 @@ async function run(){
         res.send("new added");
     })
 
+    //DELETE FURNITURE DATA SUCCESSFULLY
+    app.delete('/furniture/delete/:id',async (req,res)=>{
+        const id = {_id:ObjectId(req.params.id)}
+
+        const result = await furnitureCollection.deleteOne(id)
+        res.send('delete api');
+    })
+
 }
 run().catch(console.dir('err'));
 
@@ -46,3 +55,6 @@ app.get('/',(req,res)=>{
 app.listen(port,()=>{
     console.log('server running on 4000 page');
 })
+
+//added items field 
+// {"name":"product 2","desc":"lreasfd asdfadsf ladfjasd fasdfdsf asfasdf","imgUrl":"url","supplier_name":"Arfan Khan","quantity":20,"price":200,"sold":5}
