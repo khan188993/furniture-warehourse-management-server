@@ -1,5 +1,5 @@
 <h1>Project Name : Furniture Inventory Management</h1>
-    <h3>Project Link : link : Click For Live View</a></h3>
+    <h3>Server host Link : link : <a href="https://furniture-inventory-1020.herokuapp.com">Click For Live</a></h3>
     <hr>
     <ol>
         <h2>Project Features:</h2>
