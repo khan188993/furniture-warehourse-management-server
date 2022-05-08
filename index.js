@@ -25,9 +25,7 @@ async function run(){
     //url2: http://localhost:4000/furniture/price=2004 = for search query ;
     app.get('/furniture',async (req,res)=>{
         const query = req.query;
-        console.log(query);
         const result = await furnitureCollection.find(query).toArray();
-        console.log(result);
         res.send(result);
     })
     
@@ -35,9 +33,8 @@ async function run(){
     //url:http://localhost:4000/furniture = post data with object value 
     app.post('/furniture',async (req,res)=>{
         const newFurniture = req.body;
-        console.log(newFurniture);
         const result = await furnitureCollection.insertOne(newFurniture);
-        res.send("new added");
+        res.send({success:"new added successfully"});
     })
 
     //DELETE FURNITURE DATA SUCCESSFULLY
@@ -45,13 +42,13 @@ async function run(){
     app.delete('/furniture/delete/:id',async (req,res)=>{
         const id = {_id:ObjectId(req.params.id)}
         const result = await furnitureCollection.deleteOne(id)
-        res.send('delete api');
+        res.send({success:"Deleted Item Successfully"});
     })
 
+
     //UPDATE FURNITURE DATA SUCCESSFULLY
-    //url : http://localhost:4000/furniture/update/2 = update data with id 
     app.put('/furniture/update/:id',async (req,res)=>{
-        const id = {_id:ObjectId(req.params.id)}
+        const id = {_id: ObjectId(req.params.id)};
         const updateData = req.body;
         const options = {
             upsert:true,
@@ -62,8 +59,19 @@ async function run(){
             }
         }
 
+        console.log(updateData);
         const result = await furnitureCollection.updateOne(id,updateDoc,options);
-        res.send(result);
+
+        res.send({success:'updated'});
+
+        //response result 
+       /*  {
+            "acknowledged": true,
+            "modifiedCount": 1,
+            "upsertedId": null,
+            "upsertedCount": 0,
+            "matchedCount": 1
+        } */
     })
 
 }
